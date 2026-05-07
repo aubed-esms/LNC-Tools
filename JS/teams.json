@@ -15,8 +15,4 @@
   { "id": "mun", "team": "Manchester United", "dropbox_dir": "https://dl.dropbox.com/scl/fi/nwjwy75yd0t4xb41r5s57/mun.txt?rlkey=o2lck5ncjb28mnnrdi9blv0zm&st=4k4zya1o&dl=0" },
   { "id": "new", "team": "Newcastle United", "dropbox_dir": "https://dl.dropbox.com/scl/fi/9stmhphqn1b6sure8emfs/new.txt?rlkey=1j86km191yy4efgqjyguescgt&st=83m9w80h&dl=0" },
   { "id": "not", "team": "Nottingham Forest", "dropbox_dir": "https://dl.dropbox.com/scl/fi/cawny1a4e30z9wrc7b3un/not.txt?rlkey=j2t0wg9251i8ge5vlj3g9jovz&st=l5ulo31h&dl=0" },
-  { "id": "sun", "team": "Sunderland AFC", "dropbox_dir": "https://dl.dropbox.com/scl/fi/me2x1syd06l241p154f59/sun.txt?rlkey=2e3snke9ioqnbbitc8miqfpqw&st=6e2wdfgi&dl=0" },
-  { "id": "tot", "team": "Tottenham Hotspur", "dropbox_dir": "https://dl.dropbox.com/scl/fi/hpofm8iqe2npy2jws1vux/tot.txt?rlkey=nlogfzr38rikytiljyad794lj&st=hb2s8yyd&dl=0" },
-  { "id": "wha", "team": "West Ham United", "dropbox_dir": "https://dl.dropbox.com/scl/fi/kqfvqtl1q4s4o2bfddjrx/wha.txt?rlkey=gi01qyobytilb141pqg3a1vbj&st=h6mtj2al&dl=0" },
-  { "id": "wol", "team": "Wolverhampton", "dropbox_dir": "https://dl.dropbox.com/scl/fi/c7m7929zu44s84ti3cqnl/wol.txt?rlkey=k1w8hmv4pgo6fv7hfbfylpmbf&st=7hdn2u4l&dl=0" }
 ]

@@ -555,7 +555,7 @@ async function enviarAApi() {
 
   try {
     ///console.log(formData);
-    const response = await fetch("https://esmsubed.duckdns.org/api/alineacion", {
+    const response = await fetch("https://esmsubed.duckdns.org/api/lnc/alineacion", {
       method: "POST",
       body: formData
     });

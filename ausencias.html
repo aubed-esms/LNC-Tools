@@ -198,7 +198,7 @@ formData.append("pin", pinActual);
 
 try{
 
-const response = await fetch("https://esmsubed.duckdns.org/api/ausencia",{
+const response = await fetch("https://esmsubed.duckdns.org/api/lnc/ausencia",{
 method:"POST",
 body:formData
 });
@@ -237,7 +237,7 @@ async function cargarAusencias(){
 
   try{
 
-    const response = await fetch("https://esmsubed.duckdns.org/api/ausencias")
+    const response = await fetch("https://esmsubed.duckdns.org/api/lnc/ausencias")
 
     const data = await response.json()
 

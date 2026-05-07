@@ -215,7 +215,7 @@ confirmPin.onclick = async () => {
   resultado.innerHTML = "🔄 Enviando..."
 
   try {
-    const res = await fetch("https://esmsubed.duckdns.org/api/training", {
+    const res = await fetch("https://esmsubed.duckdns.org/api/lnc/training", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(payload)
