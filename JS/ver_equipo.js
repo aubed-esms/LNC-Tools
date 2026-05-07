@@ -1,0 +1,160 @@
+import { getQueryParam, crearTabla, esSub21, esMayor30,
+         porteros, defensas, delanteros, mediocampistas,mediapuntas, pivotes, posicion, parsearTablaSalarios,
+		 avgporteros,avgdefensas,avgdelanteros,avgmediocampistas,avgmediapuntas, avgpivotes, totalPotencial,avgage,
+  calcularSalarioJugador, potencialJugador,
+  calcularSalarioTotal } from './utils.js';
+
+const teamId = getQueryParam('id');
+
+const teamNameEl = document.getElementById('teamName');
+const teamContentEl = document.getElementById('teamContent');
+const statsEl = document.getElementById('teamStats');
+const teamNameTextEl = document.getElementById('teamNameText');
+const teamLogoEl = document.getElementById('teamLogo');
+
+async function procesarSalarios(jugadores) {
+  const cfg = await fetch('./JS/salary.cfg').then(r => r.text());
+  const tablaSalarios = parsearTablaSalarios(cfg);
+
+  jugadores.forEach(j => {
+    j.salario = parseFloat(calcularSalarioJugador(j, tablaSalarios));
+	j.potencial = potencialJugador(j);
+  });
+
+  const salarioTotal = calcularSalarioTotal(jugadores);
+
+  console.log(jugadores.map(j => j.potencial));
+  //console.log("Total:", salarioTotal);
+
+  return salarioTotal;
+}
+
+if (!teamId) {
+  teamNameEl.textContent = "Equipo no especificado";
+  teamContentEl.innerHTML = "";
+  statsEl.innerHTML = "";
+} else {
+
+  fetch('./JS/teams.json')
+    .then(res => res.ok ? res.json() : Promise.reject('Error cargando teams.json'))
+    .then(equipos => {
+	  const team = equipos.find(e => e.id === teamId.toLowerCase());
+	  if (!team) throw 'Equipo no encontrado';
+
+	  // Nombre del equipo
+	  teamNameTextEl.textContent = team.team;
+
+	  // Logo del equipo
+	  teamLogoEl.src = `./images/flags/\headerRund/${team.id}.png`;
+	  teamLogoEl.alt = team.team;
+
+	  return fetch(team.dropbox_dir);
+	})
+    .then(resp => resp.ok ? resp.text() : Promise.reject('Error cargando TXT'))
+    .then(txt => {
+      const lines = txt.trim().split('\n');
+      const sep = lines.findIndex(l=>l.includes('---'));
+      const headersLine = sep>=0 ? lines[0] : lines[0];
+      const dataLines = sep>=0 ? lines.slice(sep+1) : lines.slice(1);
+      const headers = headersLine.trim().split(/\s+/);
+
+      const jugadores = dataLines.filter(l=>l.trim()!=='').map(line=>{
+        const values = line.trim().split(/\s+/);
+        const j = {};
+        headers.forEach((h,i)=>j[h]=values[i]||'');
+        return j;
+      });
+	  procesarSalarios(jugadores).then(salarioTotal => {
+
+	  // Tabla plantilla
+	  crearTabla(jugadores, headers, teamContentEl);
+	  const potencial = totalPotencial(jugadores);
+	  console.log("Potencial: " + potencial);
+	  // Estadísticas
+	  const sub21 = jugadores.filter(j=>esSub21(j)).length;
+	  const mayor30 = jugadores.filter(j=>esMayor30(j)).length;
+	  const cuentaJugadores = jugadores.length;
+	  const port = porteros(jugadores);
+	  const df = defensas(jugadores);
+	  const fw = delanteros(jugadores);
+	  const mfs = mediocampistas(jugadores);
+	  const ams = mediapuntas(jugadores);
+	  const dms = pivotes(jugadores);
+	  const avgport = avgporteros(jugadores);
+	  const avgdf = avgdefensas(jugadores);
+	  const avgfw = avgdelanteros(jugadores);
+	  const avgmfs = avgmediocampistas(jugadores);
+	  const avgams = avgmediapuntas(jugadores);
+	  const avgdms = avgpivotes(jugadores);
+	  const averageage= avgage(jugadores);
+
+	  statsEl.innerHTML = `
+		<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem;">
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Sub21</strong><br>${sub21}
+		  </div>
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>>=30</strong><br>${mayor30}
+		  </div>
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de edad</strong><br>${averageage}
+		  </div>
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Total jugadores</strong><br>${cuentaJugadores}
+		  </div>
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Salarios</strong><br>${salarioTotal.toFixed(2)} M
+		  </div>
+		  <div style="background:#e67e22;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Potencial</strong><br>${potencial}
+		  </div>
+		  <!-- Separador -->
+		  <div style="width:100%; margin:1.5rem 0; border-top:2px solid #ddd;"></div>
+		  <div style="background:#2ecc71;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de GK</strong><br>${port.count}
+		  </div>
+		  <div style="background:#1abc9c;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de DF</strong><br>${df.count}
+		  </div>
+		  <div style="background:#16a085;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de DM</strong><br>${dms.count} 
+		  </div>
+		  <div style="background:#34495e;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de MF</strong><br>${mfs.count}
+		  </div>
+		  <div style="background:#c0392b;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de AM</strong><br>${ams.count}
+		  </div>
+		  <div style="background:#9b59b6;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Numero de FW</strong><br>${fw.count}
+		  </div>
+		  <!-- Separador -->
+		  <div style="width:100%;"></div>
+		  <div style="background:#2ecc71;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de GK</strong><br>${avgport}
+		  </div>
+		  <div style="background:#1abc9c;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de DF</strong><br>${avgdf}
+		  </div>
+		  <div style="background:#16a085;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de DM</strong><br>${avgdms} 
+		  </div>
+		  <div style="background:#34495e;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de MF</strong><br>${avgmfs}
+		  </div>
+		  <div style="background:#c0392b;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de AM</strong><br>${avgams}
+		  </div>
+		  <div style="background:#9b59b6;color:white;padding:1rem;border-radius:10px;min-width:150px;text-align:center;">
+			<strong>Media de FW</strong><br>${avgfw}
+		</div>
+	  `;
+	});
+
+    })
+    .catch(err => {
+      teamContentEl.innerHTML = `<p class="error">Error: ${err}</p>`;
+      statsEl.innerHTML = '';
+      console.error(err);
+    });
+}

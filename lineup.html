@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Lineup Creator - Fútbol</title>
+    <link rel="stylesheet" href="./css/lineup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="team-header">
+            <img id="teamLogo" class="team-logo" src="" alt="Team Logo" style="display: none;">
+            <h1 id="teamName" class="team-name">⚽ Lineup Creator ⚽</h1>
+        </div>
+
+        <!-- Campo de juego -->
+        <div class="field" id="field">
+            <!-- Las posiciones se generarán dinámicamente -->
+        </div>
+
+        <!-- Suplentes -->
+        <div class="substitutes">
+            <h3>🔄 Suplentes</h3>
+            <div class="subs-grid" id="substitutes"></div>
+        </div>
+
+        <!-- Panel de jugadores -->
+        <div class="overlay" id="overlay"></div>
+        <div class="players-panel" id="playersPanel">
+            <div class="panel-header">
+                <h3 id="panelTitle">Seleccionar jugador</h3>
+                <button class="close-btn" id="closePanel">✕</button>
+            </div>
+            <div class="players-list" id="playersList"></div>
+        </div>
+    </div>
+
+    <script src="./JS/lineup.js"></script>
+</body>
+</html>

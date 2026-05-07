@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training</title>
+<link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="./css/training.css">
+</head>
+
+<body>
+<h1>🏋️ Entrenamientos del equipo</h1>
+
+<section style="margin-top:15px;">
+  <!-- EQUIPO -->
+  <select id="teamsDropdown">
+    <option value="">-- Selecciona un equipo --</option>
+  </select>
+
+  <!-- CONTENEDOR ENTRENAMIENTOS -->
+  <div id="trainingContainer" style="margin-top:20px;"></div>
+
+  <!-- BOTÓN ENVIAR -->
+  <div style="margin-top:20px;">
+    <button id="btnEnviar">📤 ENVIAR ENTRENAMIENTO</button>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado" style="margin-top:15px;"></div>
+</section>
+
+<!-- ⭐ MODAL PIN (COMPLETO) -->
+<div id="pinModal" class="modal">
+  <div class="modal-content">
+    <h3>🔐 Introduce el PIN del equipo</h3>
+    <input type="password" id="teamPin" placeholder="PIN del equipo">
+    <div class="modal-buttons">
+      <button id="confirmPin">Confirmar</button>
+      <button id="cancelPin">Cancelar</button>
+    </div>
+    <div id="pinError"></div>
+  </div>
+</div>
+
+<script type="module" src="./JS/training.js"></script>
+</body>
+</html>
