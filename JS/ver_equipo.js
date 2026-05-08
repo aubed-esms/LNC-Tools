@@ -48,7 +48,8 @@ if (!teamId) {
 	  teamLogoEl.src = `./images/flags/\headerRund/${team.id}.png`;
 	  teamLogoEl.alt = team.team;
 
-	  return fetch(team.dropbox_dir);
+	  //return fetch(team.dropbox_dir);
+	  return fetch(`https://esmsubed.duckdns.org/api/lnc/plantilla?id=${team.id}`);
 	})
     .then(resp => resp.ok ? resp.text() : Promise.reject('Error cargando TXT'))
     .then(txt => {
